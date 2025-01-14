@@ -1,0 +1,38 @@
+#!../usr/bin/bash
+echo -e "${NOCOLOR}Checking Required packages${NOCOLOR}"
+packages=("wget" "unzip" "curl" "rsync" "x11-repo" "qemu-system-i386" "qemu-user-i386")
+for pkg in ${packages[@]}; do
+is_pkg_installed=$(dpkg-query -W --showformat='${Status}
+' ${pkg} | grep "install ok installed")
+if [ "${is_pkg_installed}" == "install ok installed" ]; then
+echo -e ${GREEN}${pkg}${NOCOLOR} is installed.
+else [ "" = "${is_pkg_installed}" ];
+echo -e "${RED}No ${pkg}. Setting up ${pkg}.${NOCOLOR}"
+pkg install ${pkg} -y
+fi
+done
+merpro=$EXTERNAL_STORAGE/Download/DragonPakV4/DragonPakV4
+locbin=$PREFIX/bin
+
+#make dir
+mkdir /sdcard/Download/DRAGON_PAK
+mkdir /sdcard/Download/DRAGON_PAK/chunk
+
+if [[ -f "$merpro" ]]
+then
+cp -rf $merpro $locbin
+chmod +x $locbin/DragonPakV4
+DIR="$EXTERNAL_STORAGE/Download/DragonPakV4/"
+
+# Check if the directory exists
+if [ -d "$DIR" ]; then
+    rm -r "$DIR"
+    echo ""
+else
+    echo ""
+fi
+DragonPakV4
+else
+echo "No DragonPakV4 file in Download directory"
+echo "File Past The Download Folder"
+fi
